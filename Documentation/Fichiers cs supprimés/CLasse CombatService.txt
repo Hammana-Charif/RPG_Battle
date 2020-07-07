@@ -1,0 +1,90 @@
+using RPG_Battle.Entités;
+using RPG_Battle.Messages;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RPG_Battle
+{
+    class Combat_Service
+    {
+        Heros heros;
+        Gobelin gobelin;
+        Ogre ogre;
+        public Combat_Service()
+        {
+            heros = new Raikho(150);
+            gobelin = new Gobelin(10);
+            ogre = new Ogre(40);
+        }
+
+        public int pointsDeVieHeros = 150;
+        public int pointsDeVieGobelin = 20;
+        public int pointsDeVieOgre = 40;
+
+        public Monstre Executer_Cycle_Combat_Global(Attaque attaque, Combat_Service combatService)
+        {
+            do
+            {
+                var monstre = VersusAleatoire.GenereMonstreAleatoire();
+
+                MessageEntites message = MessageFactory.CreateMessageForEntity(monstre);
+
+                Console.WriteLine(message.PreparationAttaque);
+
+                if (monstre is Gobelin)
+                {
+                    do
+                    {
+                        int degatsDuHerosVsGobelin = Cycle_CombatMessages_Heros.Executer_Cycle_CombatMessages_HerosVSGobelin(attaque, combatService);
+                        int pointsDeVieRestantsGobelin = pointsDeVieGobelin - degatsDuHerosVsGobelin;
+                        Cycle_CombatMessages_Partie.Demander_Appuyer_Bouton();
+
+                        if (pointsDeVieRestantsGobelin != 0)
+                        {
+                            int degatsGobelin = Cycle_CombatMessages_Gobelin.Executer_Cycle_CombatMessages_Gobelin(attaque, combatService);
+                            int pointsDeVieFinalHeros = pointsDeVieHeros - degatsGobelin;
+                            Cycle_CombatMessages_Partie.Demander_Appuyer_Bouton();
+                            return monstre;
+                        }
+                        else
+                        {
+                            Cycle_CombatMessages_Partie.Executer_Cycle_Points_Gobelin();
+                            return monstre;
+                        }
+
+                    } while (pointsDeVieGobelin > 0);
+
+                }
+                else
+                {
+                    do
+                    {
+                        int degatsDuHerosSurOgre = Cycle_CombatMessages_Heros.Executer_Cycle_CombatMessages_HerosVSOgre(attaque, combatService);
+                        int pointsDeVieRestantsOgre = pointsDeVieOgre - degatsDuHerosSurOgre;
+                        Cycle_CombatMessages_Partie.Demander_Appuyer_Bouton();
+
+                        if (pointsDeVieRestantsOgre != 0)
+                        {
+                            int degatsOgre = Cycle_CombatMessages_Ogre.Executer_Cycle_CombatMessages_Ogre(attaque, combatService);
+                            pointsDeVieRestantsOgre = pointsDeVieHeros - degatsOgre;
+                            Cycle_CombatMessages_Partie.Demander_Appuyer_Bouton();
+
+                            int degatsMagieOgre = Cycle_CombatMessages_Ogre.Executer_Cycle_CombatMessagesMagie_Ogre(ogre, attaque, combatService);
+                            int pointsDeVieFinalHeros = pointsDeVieRestantsOgre - degatsMagieOgre;
+                            Cycle_CombatMessages_Partie.Demander_Appuyer_Bouton();
+
+                            return monstre;
+                        }
+                        else
+                        {
+                            Cycle_CombatMessages_Partie.Executer_Cycle_Points_Ogre();
+                            return monstre;
+                        }
+                    } while (pointsDeVieHeros > 0);
+                }
+                
+            } while (pointsDeVieHeros > 0);
+        }
+    }
+}

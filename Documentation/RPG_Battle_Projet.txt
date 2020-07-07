@@ -1,0 +1,44 @@
+Classes:
+-Joueur
+-MonstreFacile
+-MonstreDifficile
+-De
+
+Joueur :
+-Points de vie = 150
+-Attaque = 1 point de dégât
+-Meurt
+possède une propriété en lecture seule qui contient les points de vies ; ceux-ci sont initialisés dans le constructeur.
+
+possède une propriété en lecture seule permettant de savoir si le joueur est vivant, et encapsule le nombre de points de vie.
+
+possède une méthode Attaque, prenant en paramètre un monstre
+
+possède une méthode SubitDegats qui prend en paramètre un entier avec la valeur des dégâts subits
+
+
+MonstreFacile:
+-rapporte 1 point
+-Points de vie = 
+-Attaque = 10 points de dégâts
+-Meurt
+possède également une méthode Attaque   
+
+possède une propriété en lecture seule qui encapsule le fait de savoir si le monstre est vivant
+
+MonstreDifficile:
+-Attaque
+modifie le comportement de la méthode Attaque 
+
+De:
+-Attaque joueur:
+	entre 1 et 6
+-Attaque monstre:
+	entre 1 et 6
+
+-Attaque finale : celui qui a le plus gros chiffre
+
+-Bouclier: après avoir subit des dégâts, 
+	   si le nouveau jet est inférieur à 2, 
+	   le héros ne subit pas de dégâts
+possède une méthode LanceLeDe qui renvoie un entier

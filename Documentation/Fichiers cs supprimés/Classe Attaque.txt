@@ -1,0 +1,117 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace RPG_Battle
+{
+    class Attaque
+    {
+        public int min = 1, max = 7;
+
+        public int tirageAttaqueDefense_Heros;
+        public int tirageAttaqueDefense_Monstre;
+        public int tirageAttaqueMagique_Ogre;
+
+        public int pointsVieHeros;
+        public int pointsVieGobelin;
+        public int pointsVieOgre;
+
+        public int Generer_Degats_Physique_HerosVSGobelin()
+        {
+            int nombreAleatoire_Attaque_Heros = Preparer_AttaqueDefense_Heros();
+            int nombreAleatoire_Defense_Monstre = Preparer_AttaqueDefense_Monstre();
+            if (nombreAleatoire_Attaque_Heros == nombreAleatoire_Defense_Monstre || nombreAleatoire_Attaque_Heros < nombreAleatoire_Defense_Monstre)
+            {
+                return 0;
+            }
+            else
+            {
+                return Executer_Cycle_Degats_Heros();
+            }
+            
+        }
+
+        public int Generer_Degats_Physique_HerosVSOgre()
+        {
+            int nombreAleatoire_Attaque_Heros = Preparer_AttaqueDefense_Heros();
+            int nombreAleatoire_Defense_Monstre = Preparer_AttaqueDefense_Monstre();
+            if (nombreAleatoire_Attaque_Heros == nombreAleatoire_Defense_Monstre || nombreAleatoire_Attaque_Heros < nombreAleatoire_Defense_Monstre)
+            {
+                return 0;
+            }
+            else
+            {
+                return Executer_Cycle_Degats_Heros();
+            }
+            
+        }
+
+        public int Generer_Degats_Physique_Monstre()
+        {
+            int nombreAleatoire_Attaque_Monstre = Preparer_AttaqueDefense_Monstre();
+            int nombreAleatoire_Defense_Heros = Preparer_AttaqueDefense_Heros();
+            if (nombreAleatoire_Attaque_Monstre == nombreAleatoire_Defense_Heros || nombreAleatoire_Attaque_Monstre < nombreAleatoire_Defense_Heros)
+            {
+                return 0;
+            }
+            else
+            {
+                return Executer_Cycle_Degats_Monstre();
+            }
+            
+        }
+
+        public int Generer_Degats_Magique_Ogre(Ogre ogre)
+        {
+            int nombreAleatoire = Preparer_AttaqueMagique_Ogre();
+            if (nombreAleatoire == 35)
+            {
+                return 0;
+            }
+            else
+            {
+                return Executer_Cycle_Degat_Magique_Ogre(ogre);
+            }
+        }
+
+        //Dégâts
+        public int Executer_Cycle_Degats_Heros()
+        {
+            int degatsHeros = Heros.pointsDeDegatsHeros;
+            return degatsHeros;
+        }
+
+
+        public int Executer_Cycle_Degats_Monstre()
+        {
+            int degatsMonstre = Gobelin.pointsDeDegatsGobelin;
+            return degatsMonstre;
+        }
+
+        public int Executer_Cycle_Degat_Magique_Ogre(Ogre ogre)
+        {
+            //TODO: Et les dégats magiques ?
+            int degatsMagie = ogre.GenererDegats();
+            return degatsMagie *= 5;
+        }
+
+        //Lancé de dé
+        public int Preparer_AttaqueDefense_Heros()
+        {
+            tirageAttaqueDefense_Heros = DeAJeter.Generer_Un_Nombre_Aleatoire(min, max);
+            return tirageAttaqueDefense_Heros;
+        }
+
+        public int Preparer_AttaqueDefense_Monstre()
+        {
+            tirageAttaqueDefense_Monstre = DeAJeter.Generer_Un_Nombre_Aleatoire(min, max);
+            return tirageAttaqueDefense_Monstre;
+        }
+
+        public int Preparer_AttaqueMagique_Ogre()
+        {
+            tirageAttaqueMagique_Ogre = DeAJeter.Generer_Un_Nombre_Aleatoire(min, max);
+            return tirageAttaqueMagique_Ogre;
+        }
+    }
+}
